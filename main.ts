@@ -53,12 +53,14 @@ function main() {
 
   // Verify the copy byte for byte: same size, same hash.
   const copied = readFileSync(targetPath);
-  if (copied.length !== source.length || sha256(copied) !== sha256(source)) {
+  const sourceHash = sha256(source);
+  const copiedHash = sha256(copied);
+  if (copied.length !== source.length || copiedHash !== sourceHash) {
     fail("output copy does not match entry.png");
   }
   console.log(
     `entry.png -> ${targetPath} (${statSync(targetPath).size} bytes, ` +
-      `${width}x${height}, sha256 ${sha256(copied).slice(0, 12)}...)`,
+      `${width}x${height}, sha256 ${copiedHash.slice(0, 12)}...)`,
   );
 }
 
